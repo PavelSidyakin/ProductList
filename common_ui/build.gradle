@@ -1,5 +1,5 @@
 plugins {
-    id 'com.android.application'
+    id 'com.android.library'
     id 'kotlin-android'
 }
 
@@ -7,11 +7,12 @@ android {
     compileSdkVersion versions.compileSdk
 
     defaultConfig {
-        applicationId "com.productlist"
         minSdkVersion versions.minSdk
         targetSdkVersion versions.targetSdk
         versionCode 1
         versionName "1.0"
+
+        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
@@ -30,8 +31,10 @@ android {
 }
 
 dependencies {
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation "com.google.android.material:material:${versions.material}"
+    implementation 'androidx.core:core-ktx:1.5.0'
+    implementation 'androidx.appcompat:appcompat:1.3.0'
+    implementation 'com.google.android.material:material:1.3.0'
     implementation project(path: ':module_injector')
-    implementation project(path: ':feature:main_screen')
 }

@@ -1,17 +1,19 @@
 plugins {
-    id 'com.android.application'
+    id 'com.android.library'
     id 'kotlin-android'
+    id 'kotlin-kapt'
 }
 
 android {
     compileSdkVersion versions.compileSdk
 
     defaultConfig {
-        applicationId "com.productlist"
         minSdkVersion versions.minSdk
         targetSdkVersion versions.targetSdk
         versionCode 1
         versionName "1.0"
+
+        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
@@ -30,8 +32,15 @@ android {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation "com.google.android.material:material:${versions.material}"
     implementation project(path: ':module_injector')
-    implementation project(path: ':feature:main_screen')
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation "androidx.core:core-ktx:${versions.androidx_core_ktx}"
+    implementation "androidx.appcompat:appcompat:${versions.androidx_appcompat}"
+    implementation "com.google.android.material:material:${versions.material}"
+
+    implementation "com.google.dagger:dagger:${versions.dagger}"
+    implementation project(path: ':common_ui')
+    kapt "com.google.dagger:dagger-compiler:${versions.dagger}"
+
 }
