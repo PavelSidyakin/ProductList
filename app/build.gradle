@@ -34,4 +34,5 @@ dependencies {
     implementation "com.google.android.material:material:${versions.material}"
     implementation project(path: ':module_injector')
     implementation project(path: ':feature:main_screen')
+    implementation project(path: ':common_utils')
 }

@@ -33,15 +33,11 @@ android {
 
 dependencies {
     implementation project(path: ':module_injector')
-    implementation project(path: ':common_ui')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation "androidx.core:core-ktx:${versions.androidx_core_ktx}"
-    implementation "androidx.appcompat:appcompat:${versions.androidx_appcompat}"
-    implementation "com.google.android.material:material:${versions.material}"
+
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:${versions.coroutines}"
 
     implementation "com.google.dagger:dagger:${versions.dagger}"
-    implementation project(path: ':common_utils')
     kapt "com.google.dagger:dagger-compiler:${versions.dagger}"
-
 }

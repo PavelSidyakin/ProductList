@@ -1,5 +1,6 @@
 rootProject.name = "Product List"
 include ':app'
 include ':module_injector'
+include ':common_utils'
 include ':common_ui'
 include ':feature:main_screen'
