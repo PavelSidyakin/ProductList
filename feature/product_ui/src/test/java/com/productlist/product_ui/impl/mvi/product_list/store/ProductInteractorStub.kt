@@ -19,7 +19,7 @@ internal class ProductInteractorStub(private val products: List<Product>) : Prod
     }
 
     override suspend fun loadProducts() {
-        productsFlow.emit(products)
+        productsFlow.emit(value = products)
     }
 
     override suspend fun updateFavoriteStatus(productId: Long, isFavorite: Boolean) {
