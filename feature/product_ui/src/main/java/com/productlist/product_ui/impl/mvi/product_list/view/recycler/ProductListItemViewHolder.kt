@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.productlist.product_ui.R
 import com.productlist.product_ui.databinding.ViewProductListItemBinding
 
 internal class ProductListItemViewHolder private constructor(
@@ -20,11 +21,13 @@ internal class ProductListItemViewHolder private constructor(
         binding.productAuthorTextview.text = productListItem.product.author
         binding.productTitleTextview.text = productListItem.product.title
 
-        if (!productListItem.product.imageUrl.isNullOrEmpty()) {
+        if (productListItem.product.imageUrl.isNullOrEmpty()) {
+            binding.productImageImageview.setImageResource(R.drawable.ic_image_placeholder)
+        } else {
             Glide.with(binding.root.context)
                 .load(Uri.parse(productListItem.product.imageUrl))
-                .placeholder(ColorDrawable(Color.GRAY)) // TODO: Use pictures
-                .error(ColorDrawable(Color.RED)) // TODO: Use pictures
+                .placeholder(R.drawable.ic_loading_placeholder)
+                .error(R.drawable.ic_loading_placeholder)
                 .into(binding.productImageImageview)
         }
 
