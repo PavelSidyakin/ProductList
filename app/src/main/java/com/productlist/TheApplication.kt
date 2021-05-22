@@ -2,8 +2,6 @@ package com.productlist
 
 import android.app.Application
 import android.content.Context
-import android.provider.Settings
-import android.util.Log
 import com.productlist.app_database.AppDatabaseComponentHolder
 import com.productlist.app_database.AppDatabaseFeatureApi
 import com.productlist.app_database.AppDatabaseFeatureDependencies
@@ -21,12 +19,13 @@ import com.productlist.product_data.ProductDataComponentHolder
 import com.productlist.product_data.ProductDataFeatureApi
 import com.productlist.product_data.ProductDataFeatureDependencies
 import com.productlist.product_domain.ProductDomainComponentHolder
+import com.productlist.product_domain.ProductDomainFeatureApi
 import com.productlist.product_domain.ProductDomainFeatureDependencies
 import com.productlist.product_domain.data.ProductDbRepository
 import com.productlist.product_domain.data.ProductSourceRepository
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
+import com.productlist.product_domain.domain.ProductInteractor
+import com.productlist.product_ui.ProductUiComponentHolder
+import com.productlist.product_ui.ProductUiFeatureDependencies
 
 internal class TheApplication : Application() {
 
@@ -101,17 +100,25 @@ internal class TheApplication : Application() {
             }.dependencies
         }
 
-        GlobalScope.launch {
-            ProductDomainComponentHolder.get().productInteractor.run {
-                loadProducts()
-                observeProducts().collect {
-                    it.forEach {
-                        Log.d("Product", "$it")
-                    }
+        ProductUiComponentHolder.dependencyProvider = {
+            class ProductUiDependencyHolder(
+                override val block: (BaseDependencyHolder<ProductUiFeatureDependencies>, CommonUtilsFeatureApi, ProductDomainFeatureApi) -> ProductUiFeatureDependencies
 
+            ) : DependencyHolder2<CommonUtilsFeatureApi, ProductDomainFeatureApi, ProductUiFeatureDependencies>(
+                api1 = CommonUtilsComponentHolder.get(),
+                api2 = ProductDomainComponentHolder.get(),
+            )
+
+            ProductUiDependencyHolder { baseDependencyHolder: BaseDependencyHolder<ProductUiFeatureDependencies>, commonUtilsFeatureApi: CommonUtilsFeatureApi, productDomainFeatureApi: ProductDomainFeatureApi ->
+                object : ProductUiFeatureDependencies {
+                    override val productInteractor: ProductInteractor =
+                        productDomainFeatureApi.productInteractor
+                    override val dispatcherProvider: DispatcherProvider =
+                        commonUtilsFeatureApi.dispatcherProvider
+                    override val dependencyHolder: BaseDependencyHolder<out BaseFeatureDependencies> =
+                        baseDependencyHolder
                 }
-            }
+            }.dependencies
         }
-
     }
 }

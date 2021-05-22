@@ -29,6 +29,9 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
@@ -36,6 +39,7 @@ dependencies {
     implementation project(path: ':module_injector')
     implementation project(path: ':common_ui')
     implementation project(path: ':common_utils')
+    implementation project(path: ':feature:product_domain')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "androidx.core:core-ktx:${versions.androidx_core_ktx}"
@@ -46,10 +50,14 @@ dependencies {
     implementation "com.arkivanov.mvikotlin:mvikotlin-main:${versions.mvi_kotlin}"
     implementation "com.arkivanov.mvikotlin:mvikotlin-extensions-coroutines:${versions.mvi_kotlin}"
     implementation "com.arkivanov.mvikotlin:mvikotlin-extensions-androidx:${versions.mvi_kotlin}"
+    implementation "com.arkivanov.mvikotlin:keepers:${versions.mvi_kotlin}"
 
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.coroutines}"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:${versions.coroutines}"
 
     implementation "com.google.dagger:dagger:${versions.dagger}"
     kapt "com.google.dagger:dagger-compiler:${versions.dagger}"
+
+    implementation "com.github.bumptech.glide:glide:${versions.glide}"
+    kapt "com.github.bumptech.glide:compiler:${versions.glide}"
 }

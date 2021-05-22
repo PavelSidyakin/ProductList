@@ -42,6 +42,7 @@ dependencies {
     implementation "com.google.android.material:material:${versions.material}"
 
     implementation "com.google.dagger:dagger:${versions.dagger}"
+    implementation project(path: ':feature:product_ui')
     kapt "com.google.dagger:dagger-compiler:${versions.dagger}"
 
 }

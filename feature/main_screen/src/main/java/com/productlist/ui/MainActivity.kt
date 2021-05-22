@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.productlist.MainScreenComponentHolder
 import com.productlist.impl.di.MainScreenInjector
 import com.productlist.main_screen.R
+import com.productlist.product_ui.fragment.ProductListFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,12 +19,12 @@ class MainActivity : AppCompatActivity() {
 
         if (savedInstanceState == null) {
 
-//            supportFragmentManager.beginTransaction()
-//                .add(
-//                    R.id.fragment_container,
-//                    devicesUiFragmentFactory.createDeviceListFragment(),
-//                )
-//                .commit()
+            supportFragmentManager.beginTransaction()
+                .add(
+                    R.id.fragment_container,
+                    ProductListFragment(),
+                )
+                .commit()
         }
     }
 
