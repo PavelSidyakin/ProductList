@@ -1,7 +1,7 @@
 package com.productlist.product_ui.impl.mvi.product_list.view
 
 import android.util.Log
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.arkivanov.mvikotlin.core.utils.DiffBuilder
 import com.arkivanov.mvikotlin.core.utils.diff
 import com.arkivanov.mvikotlin.core.view.BaseMviView
@@ -26,7 +26,7 @@ internal class ProductListViewImpl(
     private val productListAdapter = ProductListAdapter(productListItemClickListener)
 
     init {
-        binding.productListRecycler.layoutManager = LinearLayoutManager(binding.root.context)
+        binding.productListRecycler.layoutManager = GridLayoutManager(binding.root.context, 2)
         binding.productListRecycler.adapter = productListAdapter
     }
 
