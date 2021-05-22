@@ -12,7 +12,7 @@ import javax.inject.Inject
 internal class ProductListIntentExecutorImpl @Inject constructor(
     private val productInteractor: ProductInteractor,
     private val dispatcherProvider: DispatcherProvider,
-) : SuspendExecutor<ProductListStore.Intent, ProductListBootstrapper.Action, ProductListStore.State, ProductListStateChanges, ProductListStore.Label>(
+) : SuspendExecutor<ProductListStore.Intent, ProductListBootstrapper.Action, ProductListStore.State, ProductListStateChanges, Nothing>(
     mainContext = dispatcherProvider.main(),
 ), ProductListIntentExecutor {
 
@@ -31,16 +31,11 @@ internal class ProductListIntentExecutorImpl @Inject constructor(
     ) {
         when (intent) {
             is ProductListStore.Intent.OnIsFavoriteChanged -> handleIsFavoriteChanged(intent.productId, intent.isFavorite)
-            is ProductListStore.Intent.OnProductSelected -> handleProductSelected(intent.productId)
         }
     }
 
     private suspend fun handleIsFavoriteChanged(productId: Long, isFavorite: Boolean) {
         productInteractor.updateFavoriteStatus(productId, isFavorite)
-    }
-
-    private suspend fun handleProductSelected(productId: Long) {
-
     }
 
     private suspend fun handleActionLoadList() = coroutineScope {

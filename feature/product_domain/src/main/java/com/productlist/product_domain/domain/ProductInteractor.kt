@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 interface ProductInteractor {
     fun observeProducts(): Flow<List<Product>>
 
-    suspend fun requestProduct(productId: Long): Product
+    fun observeProduct(productId: Long): Flow<Product>
 
     suspend fun loadProducts()
 

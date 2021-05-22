@@ -42,7 +42,7 @@ interface ProductDao {
         WHERE product_id == :productId
         """
     )
-    suspend fun requestProduct(productId: Long): ProductTable
+    fun observeProduct(productId: Long): Flow<ProductTable>
 
     @Query("DELETE from t_product")
     suspend fun deleteAllProducts()

@@ -12,7 +12,7 @@ internal class ProductListStoreFactoryImpl @Inject constructor(
 ) : ProductListStoreFactory {
     override fun create(): ProductListStore {
         return object : ProductListStore,
-            Store<ProductListStore.Intent, ProductListStore.State, ProductListStore.Label>
+            Store<ProductListStore.Intent, ProductListStore.State, Nothing>
             by storeFactory.create(
                 name = "ProductListStore",
                 initialState = ProductListStore.State(),
@@ -22,6 +22,6 @@ internal class ProductListStoreFactoryImpl @Inject constructor(
             ) {}
     }
 
-    private fun getExecutor(): Executor<ProductListStore.Intent, ProductListBootstrapper.Action, ProductListStore.State, ProductListStateChanges, ProductListStore.Label> =
+    private fun getExecutor(): Executor<ProductListStore.Intent, ProductListBootstrapper.Action, ProductListStore.State, ProductListStateChanges, Nothing> =
         productListIntentExecutor
 }

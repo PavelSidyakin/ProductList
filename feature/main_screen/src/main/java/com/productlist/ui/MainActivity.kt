@@ -2,9 +2,11 @@ package com.productlist.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.productlist.MainScreenComponentHolder
 import com.productlist.impl.di.MainScreenInjector
 import com.productlist.main_screen.R
+import com.productlist.product_ui.fragment.ProductDetailsFragment
 import com.productlist.product_ui.fragment.ProductListFragment
 
 class MainActivity : AppCompatActivity() {
@@ -28,4 +30,18 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onAttachFragment(fragment: Fragment) {
+        super.onAttachFragment(fragment)
+        when (fragment) {
+            is ProductListFragment -> fragment.onProductSelectedListener = { productId ->
+                supportFragmentManager.beginTransaction()
+                    .add(
+                        R.id.fragment_container,
+                        ProductDetailsFragment.newInstance(productId),
+                    )
+                    .addToBackStack(null)
+                    .commit()
+            }
+        }
+    }
 }

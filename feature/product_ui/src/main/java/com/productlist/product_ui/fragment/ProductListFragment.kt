@@ -1,7 +1,6 @@
 package com.productlist.product_ui.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,17 +15,23 @@ import com.productlist.product_ui.impl.mvi.product_list.view.ProductListViewImpl
 
 class ProductListFragment : Fragment() {
 
+    var onProductSelectedListener: ((productId: Long) -> Unit)? = null
+
+    private val productUiInjector by lazy {
+        ProductUiComponentHolder.getInjector()
+    }
+
     private val instanceKeeper by lazy { getInstanceKeeper() }
 
     private val controller: ProductListController by lazy {
-        ProductUiComponentHolder.getInjector().productListControllerFactory.create(
+        productUiInjector.productListControllerFactory.create(
             instanceKeeper = instanceKeeper,
             dependencies = object : ProductListController.Dependencies {
                 override val productSelectedCallback: (ProductListController.Output) -> Unit =
                     { output: ProductListController.Output ->
                         when (output) {
                             is ProductListController.Output.ProductSelected -> {
-                                Log.i("Product", "Selected: ${output.productId}")
+                                onProductSelectedListener?.invoke(output.productId)
                             }
                         }
                     }
@@ -57,6 +62,11 @@ class ProductListFragment : Fragment() {
                 view.viewTreeObserver.removeOnGlobalLayoutListener(this)
             }
         })
+    }
+
+    override fun onDestroyView() {
+        _binding = null
+        super.onDestroyView()
     }
 
 }

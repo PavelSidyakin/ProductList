@@ -15,8 +15,8 @@ internal class ProductInteractorImpl @Inject constructor(
         return dbRepository.observeProducts()
     }
 
-    override suspend fun requestProduct(productId: Long): Product {
-        return dbRepository.requestProduct(productId)
+    override fun observeProduct(productId: Long): Flow<Product> {
+        return dbRepository.observeProduct(productId)
     }
 
     override suspend fun loadProducts() {

@@ -8,5 +8,5 @@ internal interface ProductListIntentExecutor
         ProductListBootstrapper.Action,
         ProductListStore.State,
         ProductListStateChanges,
-        ProductListStore.Label,
+        Nothing,
         >
