@@ -39,9 +39,11 @@ internal class ProductListIntentExecutorImpl @Inject constructor(
     }
 
     private suspend fun handleActionLoadList() = coroutineScope {
+        dispatch(ProductListStateChanges.ProgressStateChanged(isInProgress = true))
         productInteractor.observeProducts()
             .collectLatest { list: List<Product> ->
                 dispatch(ProductListStateChanges.ListChanged(list.map { ProductListItem(it) }))
+                dispatch(ProductListStateChanges.ProgressStateChanged(isInProgress = false))
             }
     }
 }

@@ -27,6 +27,4 @@ ext.versions = [
         mvi_kotlin                        : '2.0.3',
 
         room                              : '2.3.0',
-
-        shimmer                           : '0.5.0',
 ]

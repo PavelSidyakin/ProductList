@@ -4,4 +4,5 @@ import com.productlist.product_ui.impl.mvi.product_list.view.recycler.ProductLis
 
 internal sealed class ProductListStateChanges {
     data class ListChanged(val productList: List<ProductListItem>): ProductListStateChanges()
+    data class ProgressStateChanged(val isInProgress: Boolean): ProductListStateChanges()
 }

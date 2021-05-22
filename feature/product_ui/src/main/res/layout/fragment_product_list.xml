@@ -30,4 +30,30 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/view_product_list_item" />
 
+    <View
+        android:id="@+id/progress_background_veil_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/grey_10_50"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/progress_group"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:constraint_referenced_ids="progress_bar,progress_background_veil_view" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
