@@ -21,10 +21,10 @@ data class ProductTable(
     val title: String,
 
     @ColumnInfo(name = "author")
-    val author: String,
+    val author: String?,
 
     @ColumnInfo(name = "image_url")
-    val imageUrl: String,
+    val imageUrl: String?,
 
     @ColumnInfo(name = "is_favorite")
     val isFavorite: Boolean,

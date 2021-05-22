@@ -44,8 +44,8 @@ internal class ProductSourceRepositoryImpl @Inject constructor(
         return Product(
             id = 0,
             title = title,
-            author = author.orEmpty(),
-            imageUrl = imageURL.orEmpty(),
+            author = author,
+            imageUrl = imageURL,
             isFavorite = false,
         )
     }
