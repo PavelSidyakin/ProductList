@@ -32,16 +32,16 @@ android {
 }
 
 dependencies {
+
     implementation project(path: ':module_injector')
-    implementation project(path: ':common_ui')
     implementation project(path: ':common_utils')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation "androidx.core:core-ktx:${versions.androidx_core_ktx}"
-    implementation "androidx.appcompat:appcompat:${versions.androidx_appcompat}"
-    implementation "com.google.android.material:material:${versions.material}"
 
     implementation "com.google.dagger:dagger:${versions.dagger}"
     kapt "com.google.dagger:dagger-compiler:${versions.dagger}"
 
+    implementation "androidx.room:room-runtime:${versions.room}"
+    implementation("androidx.room:room-ktx:${versions.room}")
+    kapt "androidx.room:room-compiler:${versions.room}"
 }

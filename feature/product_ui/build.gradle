@@ -32,6 +32,7 @@ android {
 }
 
 dependencies {
+
     implementation project(path: ':module_injector')
     implementation project(path: ':common_ui')
     implementation project(path: ':common_utils')
@@ -41,7 +42,14 @@ dependencies {
     implementation "androidx.appcompat:appcompat:${versions.androidx_appcompat}"
     implementation "com.google.android.material:material:${versions.material}"
 
+    implementation "com.arkivanov.mvikotlin:mvikotlin:${versions.mvi_kotlin}"
+    implementation "com.arkivanov.mvikotlin:mvikotlin-main:${versions.mvi_kotlin}"
+    implementation "com.arkivanov.mvikotlin:mvikotlin-extensions-coroutines:${versions.mvi_kotlin}"
+    implementation "com.arkivanov.mvikotlin:mvikotlin-extensions-androidx:${versions.mvi_kotlin}"
+
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.coroutines}"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:${versions.coroutines}"
+
     implementation "com.google.dagger:dagger:${versions.dagger}"
     kapt "com.google.dagger:dagger-compiler:${versions.dagger}"
-
 }

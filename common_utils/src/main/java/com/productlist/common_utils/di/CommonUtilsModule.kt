@@ -6,7 +6,7 @@ import dagger.Binds
 import dagger.Module
 
 @Module
-internal abstract class CommonUtilsModule {
+internal interface CommonUtilsModule {
     @Binds
     abstract fun provideDispatcherProvider(dispatcherProvider: DispatcherProviderImpl): DispatcherProvider
 
