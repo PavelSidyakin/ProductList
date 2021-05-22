@@ -4,12 +4,11 @@ import com.productlist.product_domain.domain.ProductInteractor
 import com.productlist.product_domain.model.Product
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 
 internal class ProductInteractorStub(private val products: List<Product>) : ProductInteractor {
 
-    private val productsFlow: MutableStateFlow<List<Product>> = MutableStateFlow(products)
+    private val productsFlow: MutableSharedFlow<List<Product>> = MutableSharedFlow()
 
     override fun observeProducts(): Flow<List<Product>> {
         return productsFlow

@@ -12,7 +12,7 @@ internal interface ProductListStore :
     }
 
     data class State(
-        val isInProress: Boolean = false,
+        val isInProgress: Boolean = false,
         val productList: List<ProductListItem>? = null,
         val error: Throwable? = null,
     )

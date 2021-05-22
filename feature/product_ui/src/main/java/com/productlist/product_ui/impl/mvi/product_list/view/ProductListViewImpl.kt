@@ -39,7 +39,7 @@ internal class ProductListViewImpl(
             get = ProductListStore.State::productList,
             set = { list -> productListAdapter.products = list }
         )
-        diff(get = ProductListStore.State::isInProress, set = { isInProgress ->
+        diff(get = ProductListStore.State::isInProgress, set = { isInProgress ->
             binding.progressGroup.visibility = when (isInProgress) {
                 true -> View.VISIBLE
                 false -> View.GONE

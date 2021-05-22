@@ -2,18 +2,12 @@ package com.productlist.product_ui.impl.mvi.product_list.store
 
 import com.arkivanov.mvikotlin.core.utils.isAssertOnMainThreadEnabled
 import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
-import com.arkivanov.mvikotlin.rx.observer
 import com.productlist.common_utils.coroutine_utils.DispatcherProvider
-import com.productlist.common_utils.coroutine_utils.DispatcherProviderStub
 import com.productlist.product_domain.domain.ProductInteractor
 import com.productlist.product_domain.model.Product
 import io.mockk.coVerify
 import io.mockk.spyk
-import io.mockk.verify
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
@@ -48,16 +42,6 @@ internal class ProductListStoreTest {
         coVerify(exactly = 1) { productInteractor.updateFavoriteStatus(1, true) }
     }
 
-    @Test
-    @DisplayName("When initialized, should show and hide progress")
-    fun test2() {
-            val states = mutableListOf<ProductListStore.State>()
-            store.states(observer { states.add(it) })
-
-            Assertions.assertEquals(true, states[0].isInProress)
-            //Assertions.assertEquals(false, states[1].isInProress)
-    }
-
     private fun createStore() {
         store =
             ProductListStoreFactoryImpl(
@@ -65,14 +49,8 @@ internal class ProductListStoreTest {
                 productListIntentExecutor = ProductListIntentExecutorImpl(
                     productInteractor = productInteractor,
                     dispatcherProvider = object : DispatcherProvider {
-                        override fun io(): CoroutineDispatcher {
-                            return TestCoroutineDispatcher()
-                        }
-
-                        override fun main(): CoroutineDispatcher {
-                            return TestCoroutineDispatcher()
-                        }
-
+                        override fun io(): CoroutineDispatcher = TestCoroutineDispatcher()
+                        override fun main(): CoroutineDispatcher = TestCoroutineDispatcher()
                     },
                 )
             ).create()

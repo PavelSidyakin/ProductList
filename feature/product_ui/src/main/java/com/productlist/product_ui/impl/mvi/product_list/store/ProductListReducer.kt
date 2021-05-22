@@ -7,7 +7,7 @@ internal class ProductListReducer: Reducer<ProductListStore.State, ProductListSt
     override fun ProductListStore.State.reduce(result: ProductListStateChanges): ProductListStore.State {
         return when (result) {
             is ProductListStateChanges.ListChanged -> copy(productList = result.productList)
-            is ProductListStateChanges.ProgressStateChanged -> copy(isInProress = result.isInProgress)
+            is ProductListStateChanges.ProgressStateChanged -> copy(isInProgress = result.isInProgress)
         }
     }
 }
