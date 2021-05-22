@@ -60,4 +60,11 @@ dependencies {
 
     implementation "com.github.bumptech.glide:glide:${versions.glide}"
     kapt "com.github.bumptech.glide:compiler:${versions.glide}"
+
+    testImplementation "org.junit.jupiter:junit-jupiter-api:${versions.junit5}"
+    testImplementation "org.junit.jupiter:junit-jupiter-params:${versions.junit5}"
+    testImplementation "io.mockk:mockk:${versions.mockk}"
+    testImplementation "com.arkivanov.mvikotlin:rx:${versions.mvi_kotlin}"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:${versions.coroutines}"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${versions.junit5}"
 }
