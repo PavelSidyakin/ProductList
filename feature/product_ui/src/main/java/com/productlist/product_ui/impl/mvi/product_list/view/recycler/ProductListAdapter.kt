@@ -6,15 +6,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.productlist.product_domain.model.Product
 
 internal class ProductListAdapter(
-    private val productListItemClickListener: ProductListItemClickListener,
+    private val productListItemListener: ProductListItemListener,
 ) : RecyclerView.Adapter<ProductListItemViewHolder>() {
 
     var products: List<ProductListItem>? = null
         set(value) {
             val diffResult: DiffUtil.DiffResult = DiffUtil.calculateDiff(
                 DiffUtilCallback(
-                    newProducts = field ?: emptyList(),
-                    oldProducts = value ?: emptyList(),
+                    oldProducts = field ?: emptyList(),
+                    newProducts = value ?: emptyList(),
                 )
             )
             field = value
@@ -22,7 +22,7 @@ internal class ProductListAdapter(
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductListItemViewHolder {
-        return ProductListItemViewHolder.create(parent, productListItemClickListener)
+        return ProductListItemViewHolder.create(parent, productListItemListener)
     }
 
     override fun onBindViewHolder(holder: ProductListItemViewHolder, position: Int) {
@@ -77,10 +77,10 @@ internal class ProductListAdapter(
             val oldProductListItem: ProductListItem = oldProducts[oldItemPosition]
             val newProductListItem: ProductListItem = newProducts[newItemPosition]
 
-            if (oldProductListItem == newProductListItem) {
-                return null
+            return if (oldProductListItem == newProductListItem) {
+                null
             } else {
-                return oldProductListItem to newProductListItem
+                oldProductListItem to newProductListItem
             }
         }
     }

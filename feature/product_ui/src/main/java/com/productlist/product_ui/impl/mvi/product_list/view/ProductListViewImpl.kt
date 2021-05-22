@@ -2,7 +2,6 @@ package com.productlist.product_ui.impl.mvi.product_list.view
 
 import android.graphics.Rect
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -10,12 +9,11 @@ import com.arkivanov.mvikotlin.core.utils.DiffBuilder
 import com.arkivanov.mvikotlin.core.utils.diff
 import com.arkivanov.mvikotlin.core.view.BaseMviView
 import com.arkivanov.mvikotlin.core.view.ViewRenderer
-import com.productlist.product_domain.model.Product
 import com.productlist.product_ui.R
 import com.productlist.product_ui.databinding.FragmentProductListBinding
 import com.productlist.product_ui.impl.mvi.product_list.store.ProductListStore
 import com.productlist.product_ui.impl.mvi.product_list.view.recycler.ProductListAdapter
-import com.productlist.product_ui.impl.mvi.product_list.view.recycler.ProductListItemClickListener
+import com.productlist.product_ui.impl.mvi.product_list.view.recycler.ProductListItemListener
 import kotlin.math.roundToInt
 
 
@@ -23,14 +21,18 @@ internal class ProductListViewImpl(
     private val binding: FragmentProductListBinding,
 ) : BaseMviView<ProductListStore.State, ProductListStore.Intent>(), ProductListView {
 
-    private val productListItemClickListener: ProductListItemClickListener = object :
-        ProductListItemClickListener {
-        override fun onProductClicked(product: Product) {
-            Log.i("Product", "Product Clicked: $product")
+    private val productListItemListener: ProductListItemListener = object :
+        ProductListItemListener {
+        override fun onProductClicked(productId: Long) {
+            dispatch(ProductListStore.Intent.OnProductSelected(productId))
+        }
+
+        override fun onFavoriteStateChanged(productId: Long, isFavorite: Boolean) {
+            dispatch(ProductListStore.Intent.OnIsFavoriteChanged(productId, isFavorite))
         }
     }
 
-    private val productListAdapter = ProductListAdapter(productListItemClickListener)
+    private val productListAdapter = ProductListAdapter(productListItemListener)
 
     override val renderer: ViewRenderer<ProductListStore.State>? = diff {
         diffRecyclerList(
@@ -51,7 +53,6 @@ internal class ProductListViewImpl(
                 margin = binding.root.context.resources.getDimensionPixelSize(R.dimen.product_list_item_margin),
             )
         )
-
     }
 
     private fun calculateNumberOfColumns(

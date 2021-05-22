@@ -6,7 +6,7 @@ import com.productlist.product_ui.impl.views.ProductListItemView
 
 internal class ProductListItemViewHolder private constructor(
     private val listItemView: ProductListItemView,
-    private val productListItemClickListener: ProductListItemClickListener,
+    private val productListItemListener: ProductListItemListener,
 ) : RecyclerView.ViewHolder(listItemView) {
 
     fun bind(productListItem: ProductListItem) {
@@ -16,7 +16,11 @@ internal class ProductListItemViewHolder private constructor(
         listItemView.title = productListItem.product.title
         listItemView.imageUrl = productListItem.product.imageUrl
 
-        itemView.setOnClickListener { productListItemClickListener.onProductClicked(productListItem.product) }
+        listItemView.onIsFavoriteChangedListener = { isFavorite ->
+            productListItemListener.onFavoriteStateChanged(productListItem.product.id, isFavorite)
+        }
+
+        itemView.setOnClickListener { productListItemListener.onProductClicked(productListItem.product.id) }
     }
 
     fun bindIsFavorite(isFavorite: Boolean) {
@@ -27,10 +31,10 @@ internal class ProductListItemViewHolder private constructor(
 
         fun create(
             parent: ViewGroup,
-            productListItemClickListener: ProductListItemClickListener,
+            productListItemListener: ProductListItemListener,
         ): ProductListItemViewHolder {
 
-            return ProductListItemViewHolder(ProductListItemView(parent.context), productListItemClickListener)
+            return ProductListItemViewHolder(ProductListItemView(parent.context), productListItemListener)
         }
     }
 

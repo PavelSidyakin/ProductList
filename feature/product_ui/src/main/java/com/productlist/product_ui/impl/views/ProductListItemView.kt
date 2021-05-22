@@ -17,10 +17,6 @@ internal class ProductListItemView @JvmOverloads constructor(
     defStyleAttr: Int = 0,
 ) : FrameLayout(context, attrs, defStyleAttr) {
 
-    private val binding: ViewProductListItemBinding by lazy {
-        ViewProductListItemBinding.inflate(LayoutInflater.from(context), this, true)
-    }
-
     var title: CharSequence? = null
         set(value) {
             binding.productTitleTextview.text = value
@@ -36,7 +32,10 @@ internal class ProductListItemView @JvmOverloads constructor(
     var isFavorite: Boolean
         get() = binding.favoriteCheckbox.isChecked
         set(value) {
+            val onIsFavoriteChangedListenerBak = onIsFavoriteChangedListener
+            onIsFavoriteChangedListener = null
             binding.favoriteCheckbox.isChecked = value
+            onIsFavoriteChangedListener = onIsFavoriteChangedListenerBak
         }
 
     var imageUrl: String? = null
@@ -52,6 +51,23 @@ internal class ProductListItemView @JvmOverloads constructor(
             }
             field = value
         }
+
+    var onIsFavoriteChangedListener: ((isFavorite: Boolean) -> Unit)? = null
+        set(value) {
+            if (value == null) {
+                binding.favoriteCheckbox.setOnCheckedChangeListener(null)
+            } else {
+                binding.favoriteCheckbox.setOnCheckedChangeListener { _, isChecked ->
+                    value(isChecked)
+                }
+            }
+            field = value
+        }
+
+
+    private val binding: ViewProductListItemBinding by lazy {
+        ViewProductListItemBinding.inflate(LayoutInflater.from(context), this, true)
+    }
 
     init {
         View.inflate(context, R.layout.view_product_list_item, this)
