@@ -4,12 +4,10 @@ import android.content.Context
 import android.net.Uri
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.FrameLayout
 import com.bumptech.glide.Glide
 import com.productlist.product_ui.R
 import com.productlist.product_ui.databinding.ViewProductListItemBinding
-
 
 internal class ProductListItemView @JvmOverloads constructor(
     context: Context,
@@ -65,11 +63,6 @@ internal class ProductListItemView @JvmOverloads constructor(
         }
 
 
-    private val binding: ViewProductListItemBinding by lazy {
+    private val binding: ViewProductListItemBinding =
         ViewProductListItemBinding.inflate(LayoutInflater.from(context), this, true)
-    }
-
-    init {
-        View.inflate(context, R.layout.view_product_list_item, this)
-    }
 }

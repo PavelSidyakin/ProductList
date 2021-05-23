@@ -5,6 +5,13 @@ import com.productlist.module_injector.BaseFeatureDependencies
 import com.productlist.product_domain.domain.ProductInteractor
 
 interface ProductUiFeatureDependencies : BaseFeatureDependencies {
+    /**
+     * [ProductInteractor] instance.
+     */
     val productInteractor: ProductInteractor
+
+    /**
+     * [DispatcherProvider] instance.
+     */
     val dispatcherProvider: DispatcherProvider
 }

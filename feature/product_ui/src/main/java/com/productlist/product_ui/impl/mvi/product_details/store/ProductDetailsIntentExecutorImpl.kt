@@ -15,19 +15,13 @@ internal class ProductDetailsIntentExecutorImpl @Inject constructor(
     mainContext = dispatcherProvider.main(),
 ), ProductDetailsIntentExecutor {
 
-    override suspend fun executeAction(
-        action: ProductDetailsBootstrapper.Action,
-        getState: () -> ProductDetailsStore.State,
-    ) {
+    override suspend fun executeAction(action: ProductDetailsBootstrapper.Action, getState: () -> ProductDetailsStore.State) {
         when (action) {
             is ProductDetailsBootstrapper.Action.ShowDetails -> handleShowDetails(action.productId)
         }
     }
 
-    override suspend fun executeIntent(
-        intent: ProductDetailsStore.Intent,
-        getState: () -> ProductDetailsStore.State,
-    ) {
+    override suspend fun executeIntent(intent: ProductDetailsStore.Intent, getState: () -> ProductDetailsStore.State) {
         when (intent) {
             is ProductDetailsStore.Intent.OnIsFavoriteChanged -> handleIsFavoriteChanged(intent.productId, intent.isFavorite)
         }

@@ -47,6 +47,8 @@ internal class ProductDetailsViewImpl(
     }
 
     private fun setIsFavoriteState(isFavorite: Boolean) {
+        // Change is favorite state without the listener notification.
+
         binding.favoriteCheckbox.setOnCheckedChangeListener(null)
         binding.favoriteCheckbox.isChecked = isFavorite
         setOnIsFavoriteChangedListener()

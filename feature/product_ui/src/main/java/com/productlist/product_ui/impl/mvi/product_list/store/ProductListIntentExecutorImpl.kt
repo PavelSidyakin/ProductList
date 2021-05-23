@@ -19,19 +19,13 @@ internal class ProductListIntentExecutorImpl @Inject constructor(
     mainContext = dispatcherProvider.main(),
 ), ProductListIntentExecutor {
 
-    override suspend fun executeAction(
-        action: ProductListBootstrapper.Action,
-        getState: () -> ProductListStore.State,
-    ) {
+    override suspend fun executeAction(action: ProductListBootstrapper.Action, getState: () -> ProductListStore.State) {
         when (action) {
             is ProductListBootstrapper.Action.LoadList -> handleActionLoadList()
         }
     }
 
-    override suspend fun executeIntent(
-        intent: ProductListStore.Intent,
-        getState: () -> ProductListStore.State,
-    ) {
+    override suspend fun executeIntent(intent: ProductListStore.Intent, getState: () -> ProductListStore.State) {
         when (intent) {
             is ProductListStore.Intent.OnIsFavoriteChanged -> handleIsFavoriteChanged(intent.productId, intent.isFavorite)
         }

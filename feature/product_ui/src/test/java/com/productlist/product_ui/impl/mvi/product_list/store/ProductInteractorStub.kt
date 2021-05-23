@@ -6,6 +6,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.map
 
+/**
+ * Stub simulates the real interactor behaviour.
+ */
 internal class ProductInteractorStub(private val products: List<Product>) : ProductInteractor {
 
     private val productsFlow: MutableSharedFlow<List<Product>> = MutableSharedFlow()

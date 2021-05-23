@@ -22,6 +22,10 @@ internal class ProductListStoreFactoryImpl @Inject constructor(
             ) {}
     }
 
-    private fun getExecutor(): Executor<ProductListStore.Intent, ProductListBootstrapper.Action, ProductListStore.State, ProductListStateChanges, Nothing> =
-        productListIntentExecutor
+    private fun getExecutor(): Executor<
+            ProductListStore.Intent,
+            ProductListBootstrapper.Action,
+            ProductListStore.State,
+            ProductListStateChanges, Nothing
+            > = productListIntentExecutor
 }

@@ -11,7 +11,7 @@ import com.arkivanov.mvikotlin.core.view.ViewRenderer
 import com.productlist.product_ui.R
 import com.productlist.product_ui.databinding.FragmentProductListBinding
 import com.productlist.product_ui.impl.mvi.product_list.store.ProductListStore
-import com.productlist.product_ui.impl.mvi.product_list.view.recycler.MarginItemDecoration
+import com.productlist.product_ui.impl.mvi.product_list.view.recycler.ProductGridMarginItemDecoration
 import com.productlist.product_ui.impl.mvi.product_list.view.recycler.ProductListAdapter
 import com.productlist.product_ui.impl.mvi.product_list.view.recycler.ProductListItemListener
 import kotlin.math.roundToInt
@@ -48,21 +48,24 @@ internal class ProductListViewImpl(
     }
 
     init {
+        // Get the width if the fake list item view.
         val itemWidth: Int = binding.productListFakeItemView.width
 
+        // Restore position on the fragment restore.
         productListAdapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 
         binding.productListRecycler.run {
             layoutManager = GridLayoutManager(binding.root.context, calculateNumberOfColumns(itemWidth))
             adapter = productListAdapter
             addItemDecoration(
-                MarginItemDecoration(
+                ProductGridMarginItemDecoration(
                     margin = binding.root.context.resources.getDimensionPixelSize(R.dimen.product_list_item_half_distance),
                 )
             )
         }
     }
 
+    // Calculates number of columns by the item width and the display width.
     private fun calculateNumberOfColumns(
         columnWidthPx: Int,
     ): Int {
@@ -70,6 +73,8 @@ internal class ProductListViewImpl(
         return ((displayMetrics.widthPixels.toFloat() / columnWidthPx) + 0.5).roundToInt()
     }
 
+    // The function always pass the list "as is" without the content compare.
+    // Always let the adapter to compare the lists.
     private fun <Model : Any, PM, PD : List<PM>> DiffBuilder<Model>.diffRecyclerList(
         get: (Model) -> PD?,
         set: (PD) -> Unit
@@ -77,8 +82,7 @@ internal class ProductListViewImpl(
         diff(
             get = get,
             set = { pd: PD? -> pd?.let { set(it) } },
-            compare = { _, _ -> false } // Always let the adapter to compare
+            compare = { _, _ -> false }
         )
     }
-
 }

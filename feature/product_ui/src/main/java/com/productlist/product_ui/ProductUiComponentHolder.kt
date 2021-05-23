@@ -5,6 +5,9 @@ import com.productlist.module_injector.ComponentHolderDelegate
 import com.productlist.product_ui.impl.di.ProductUiComponent
 import com.productlist.product_ui.impl.di.ProductUiInjector
 
+/**
+ * Used internally only for now.
+ */
 object ProductUiComponentHolder : ComponentHolder<ProductUiFeatureApi, ProductUiFeatureDependencies> {
     private val componentHolderDelegate = ComponentHolderDelegate<
             ProductUiFeatureApi,

@@ -29,11 +29,7 @@ internal class ProductListAdapter(
         products?.get(position)?.let { holder.bind(it) }
     }
 
-    override fun onBindViewHolder(
-        holder: ProductListItemViewHolder,
-        position: Int,
-        payloads: MutableList<Any>,
-    ) {
+    override fun onBindViewHolder(holder: ProductListItemViewHolder, position: Int, payloads: MutableList<Any>) {
         if (payloads.isEmpty()) {
             return super.onBindViewHolder(holder, position, payloads)
         }

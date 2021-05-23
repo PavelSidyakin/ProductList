@@ -1,9 +1,15 @@
 package com.productlist.product_ui.impl.mvi.product_details.store
 
+/**
+ * MVIKotlin Bootstrapper class.
+ */
 internal class ProductDetailsBootstrapper {
 
     sealed class Action {
-        data class ShowDetails(val productId: Long): Action()
+        /**
+         * The action to load product details.
+         */
+        data class ShowDetails(val productId: Long) : Action()
     }
 
 }

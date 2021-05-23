@@ -18,16 +18,19 @@ import com.productlist.product_ui.databinding.FragmentProductListBinding
 import com.productlist.product_ui.impl.mvi.product_list.controller.ProductListController
 import com.productlist.product_ui.impl.mvi.product_list.view.ProductListViewImpl
 
+/**
+ * Product list fragment.
+ *
+ * Displays product list.
+ */
 class ProductListFragment : Fragment() {
 
     private val productUiInjector by lazy {
         ProductUiComponentHolder.getInjector()
     }
 
+    // MVI Kotlin entities
     private val instanceKeeper by lazy { getInstanceKeeper() }
-
-    private lateinit var productIdSharedViewModel: ProductIdSharedViewModel
-
     private val controller: ProductListController by lazy {
         productUiInjector.productListControllerFactory.create(
             instanceKeeper = instanceKeeper,
@@ -44,9 +47,12 @@ class ProductListFragment : Fragment() {
         )
     }
 
+    // View binding
     private var _binding: FragmentProductListBinding? = null
-
     private val binding get() = _binding!!
+
+    // Shared view model to notify the product selection.
+    private lateinit var productIdSharedViewModel: ProductIdSharedViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,7 +65,7 @@ class ProductListFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentProductListBinding.inflate(inflater, container, false)
         return binding.root
     }

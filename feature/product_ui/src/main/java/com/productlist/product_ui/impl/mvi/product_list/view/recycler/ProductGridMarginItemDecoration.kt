@@ -5,7 +5,7 @@ import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-class MarginItemDecoration(private val margin: Int) : RecyclerView.ItemDecoration() {
+class ProductGridMarginItemDecoration(private val margin: Int) : RecyclerView.ItemDecoration() {
     override fun getItemOffsets(
         outRect: Rect,
         view: View,
