@@ -25,12 +25,9 @@ internal class ProductSourceRepositoryImpl @Inject constructor(
             var inputStream: InputStream? = null
             try {
                 inputStream = res.openRawResource(R.raw.products)
-                Gson().fromJson(
-                    InputStreamReader(inputStream),
-                    Array<ProductJsonModel>::class.java,
-                ).map { it.toProduct() }
-            }
-            finally {
+                Gson().fromJson(InputStreamReader(inputStream), Array<ProductJsonModel>::class.java)
+                    .map { it.toProduct() }
+            } finally {
                 try {
                     inputStream?.close()
                 } catch (th: Throwable) {

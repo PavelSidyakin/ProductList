@@ -28,4 +28,5 @@
             app:argType="long"
             app:nullable="false" />
     </fragment>
+
 </navigation>

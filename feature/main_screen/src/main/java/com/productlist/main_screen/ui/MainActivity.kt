@@ -1,4 +1,4 @@
-package com.productlist.ui
+package com.productlist.main_screen.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -6,12 +6,15 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
-import com.productlist.MainScreenComponentHolder
-import com.productlist.impl.di.MainScreenInjector
+import com.productlist.main_screen.MainScreenComponentHolder
 import com.productlist.main_screen.R
+import com.productlist.main_screen.impl.di.MainScreenInjector
 import com.productlist.product_ui.fragment.ProductDetailsFragment
 import com.productlist.product_ui.fragment.ProductListFragment
 
+/**
+ * The main launcher activity.
+ */
 class MainActivity : AppCompatActivity() {
 
     private val mainScreenComponent: MainScreenInjector by lazy {

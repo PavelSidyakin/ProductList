@@ -44,9 +44,9 @@ dependencies {
     implementation "com.google.dagger:dagger:${versions.dagger}"
     kapt "com.google.dagger:dagger-compiler:${versions.dagger}"
 
+    testImplementation project(path: ':common_test_utils')
     testImplementation "org.junit.jupiter:junit-jupiter-api:${versions.junit5}"
     testImplementation "org.junit.jupiter:junit-jupiter-params:${versions.junit5}"
     testImplementation "io.mockk:mockk:${versions.mockk}"
-    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:${versions.coroutines}"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${versions.junit5}"
 }

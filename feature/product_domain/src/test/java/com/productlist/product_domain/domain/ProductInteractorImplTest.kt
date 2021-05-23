@@ -35,6 +35,7 @@ internal class ProductInteractorImplTest {
         MockKAnnotations.init(this)
         interactor = ProductInteractorImpl(dbRepository, sourceRepository)
 
+        // Just execute transaction in the current thread.
         val transactionBlock = slot<(suspend () -> Unit)>()
         coEvery { dbRepository.withTransaction(block = capture(transactionBlock)) } answers {
             runBlocking {

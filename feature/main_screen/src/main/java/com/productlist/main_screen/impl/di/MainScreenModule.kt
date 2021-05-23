@@ -1,4 +1,4 @@
-package com.productlist.impl.di
+package com.productlist.main_screen.impl.di
 
 import dagger.Module
 

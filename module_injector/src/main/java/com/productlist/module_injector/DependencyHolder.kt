@@ -1,5 +1,12 @@
 package com.productlist.module_injector
 
+/**
+ * Base interfaces for DependencyHolder.
+ *
+ * The current implementation is based on the publication:
+ * https://proandroiddev.com/modularization-of-android-applications-with-lazy-initialization-a091eaaa284a
+ *
+ */
 interface BaseDependencyHolder<D : BaseFeatureDependencies> {
     val dependencies: D
 }

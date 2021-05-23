@@ -1,7 +1,7 @@
-package com.productlist.impl.di
+package com.productlist.main_screen.impl.di
 
-import com.productlist.MainScreenFeatureApi
-import com.productlist.MainScreenFeatureDependencies
+import com.productlist.main_screen.MainScreenFeatureApi
+import com.productlist.main_screen.MainScreenFeatureDependencies
 import dagger.Component
 
 @Component(

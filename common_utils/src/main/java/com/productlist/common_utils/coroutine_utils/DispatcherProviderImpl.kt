@@ -4,10 +4,11 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 
-internal class DispatcherProviderImpl
-    @Inject
-    constructor()
-    : DispatcherProvider {
+/**
+ * Provides default [CoroutineDispatcher]s.
+ */
+internal class DispatcherProviderImpl @Inject constructor(
+) : DispatcherProvider {
 
     override fun main(): CoroutineDispatcher = Dispatchers.Main
 

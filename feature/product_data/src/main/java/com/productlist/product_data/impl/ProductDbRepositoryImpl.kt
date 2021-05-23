@@ -13,7 +13,7 @@ import javax.inject.Inject
 internal class ProductDbRepositoryImpl @Inject constructor(
     private val db: RoomDatabase,
     private val productDao: ProductDao,
-): ProductDbRepository {
+) : ProductDbRepository {
 
     override suspend fun withTransaction(block: suspend () -> Unit) {
         db.withTransaction {

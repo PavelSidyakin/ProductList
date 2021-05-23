@@ -15,10 +15,8 @@ internal class AppDatabaseModule {
     @Provides
     @Singleton
     fun provideAppDatabase(context: Context): AppDatabase {
-        return Room.databaseBuilder(
-            context,
-            AppDatabase::class.java, "productlist"
-        ).build()
+        return Room.databaseBuilder(context, AppDatabase::class.java, DATABASE_NAME)
+            .build()
     }
 
     @Provides
@@ -29,5 +27,9 @@ internal class AppDatabaseModule {
     @Provides
     fun provideProductDao(appDatabase: AppDatabase): ProductDao {
         return appDatabase.productDao()
+    }
+
+    companion object {
+        private const val DATABASE_NAME = "productlist_db"
     }
 }

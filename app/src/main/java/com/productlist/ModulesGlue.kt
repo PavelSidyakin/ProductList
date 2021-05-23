@@ -26,8 +26,22 @@ import com.productlist.product_domain.domain.ProductInteractor
 import com.productlist.product_ui.ProductUiComponentHolder
 import com.productlist.product_ui.ProductUiFeatureDependencies
 
+/**
+ * The object is responsible for gluing modules together.
+ *
+ * The current implementation is based on the publication:
+ * https://proandroiddev.com/modularization-of-android-applications-with-lazy-initialization-a091eaaa284a
+ */
 internal object ModulesGlue {
+    /**
+     * Glues modules.
+     *
+     * Must be called in [TheApplication.onCreate].
+     *
+     * @param appContext The application context
+     */
     fun glueModules(appContext: Context) {
+
         CommonUtilsComponentHolder.dependencyProvider = {
             class CommonUtilsComponentDependencyHolder(
                 override val block: (BaseDependencyHolder<CommonUtilsFeatureDependencies>) -> CommonUtilsFeatureDependencies
@@ -106,6 +120,5 @@ internal object ModulesGlue {
                 }
             }.dependencies
         }
-
     }
 }

@@ -8,6 +8,9 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
+/**
+ * The main application class.
+ */
 internal class TheApplication : Application(), CoroutineScope {
 
     override val coroutineContext: CoroutineContext = Job() + Dispatchers.IO
@@ -21,6 +24,8 @@ internal class TheApplication : Application(), CoroutineScope {
 
         ModulesGlue.glueModules(this)
 
+        // Load product on the applications start.
+        // Depends on the business requirements this can be in another place.
         launch {
             productDomainFeatureApi.productInteractor.loadProducts()
         }

@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Products"/>
+    <style name="Products" />
 
     <style name="Products.Header">
-        <item name="android:textColor">?textColor</item>
+        <item name="android:textColor">?attr/defaultTextColor</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">12sp</item>
     </style>
 
     <style name="Products.SubHeader">
-        <item name="android:textColor">?textColor</item>
+        <item name="android:textColor">?attr/defaultTextColor</item>
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">11sp</item>
     </style>
 
     <style name="Products.Header.Big">
-        <item name="android:textColor">?textColor</item>
+        <item name="android:textColor">?attr/defaultTextColor</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">16sp</item>
     </style>
 
     <style name="Products.SubHeader.Big">
-        <item name="android:textColor">?textColor</item>
+        <item name="android:textColor">?attr/defaultTextColor</item>
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">14sp</item>
     </style>

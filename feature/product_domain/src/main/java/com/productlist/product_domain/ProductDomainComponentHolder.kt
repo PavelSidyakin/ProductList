@@ -1,8 +1,8 @@
 package com.productlist.product_domain
 
-import com.productlist.product_domain.impl.di.ProductDomainComponent
 import com.productlist.module_injector.ComponentHolder
 import com.productlist.module_injector.ComponentHolderDelegate
+import com.productlist.product_domain.impl.di.ProductDomainComponent
 
 object ProductDomainComponentHolder : ComponentHolder<ProductDomainFeatureApi, ProductDomainFeatureDependencies> {
     private val componentHolderDelegate = ComponentHolderDelegate<

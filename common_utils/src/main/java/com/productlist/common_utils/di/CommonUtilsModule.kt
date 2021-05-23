@@ -8,6 +8,5 @@ import dagger.Module
 @Module
 internal interface CommonUtilsModule {
     @Binds
-    abstract fun provideDispatcherProvider(dispatcherProvider: DispatcherProviderImpl): DispatcherProvider
-
+    fun provideDispatcherProvider(dispatcherProvider: DispatcherProviderImpl): DispatcherProvider
 }

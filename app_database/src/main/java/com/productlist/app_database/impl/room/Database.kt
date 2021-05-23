@@ -11,6 +11,10 @@ import androidx.room.Query
 import androidx.room.RoomDatabase
 import kotlinx.coroutines.flow.Flow
 
+/**
+ * The file contains entities and dao for the application database.
+ */
+
 @Entity(tableName = "t_product")
 data class ProductTable(
     @PrimaryKey(autoGenerate = true)
@@ -67,7 +71,7 @@ interface ProductDao {
 @Database(
     version = 1,
     entities = [
-        ProductTable::class
+        ProductTable::class,
     ],
 )
 internal abstract class AppDatabase : RoomDatabase() {

@@ -5,7 +5,6 @@ import kotlinx.coroutines.Dispatchers
 
 /**
  * Stub with the specified [CoroutineDispatcher] for all dispatchers.
- * Should be used for unit tests only.
  */
 class DispatcherProviderStub(
     private val dispatcher: CoroutineDispatcher = Dispatchers.Unconfined,

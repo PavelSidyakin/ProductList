@@ -1,11 +1,11 @@
-package com.productlist
+package com.productlist.main_screen
 
-import com.productlist.impl.di.MainScreenComponent
-import com.productlist.impl.di.MainScreenInjector
+import com.productlist.main_screen.impl.di.MainScreenComponent
+import com.productlist.main_screen.impl.di.MainScreenInjector
 import com.productlist.module_injector.ComponentHolder
 import com.productlist.module_injector.ComponentHolderDelegate
 
-
+// Useless now. But can be used in the future
 object MainScreenComponentHolder :
     ComponentHolder<MainScreenFeatureApi, MainScreenFeatureDependencies> {
     private val componentHolderDelegate = ComponentHolderDelegate<

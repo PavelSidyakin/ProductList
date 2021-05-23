@@ -9,7 +9,7 @@ import javax.inject.Inject
 internal class ProductInteractorImpl @Inject constructor(
     private val dbRepository: ProductDbRepository,
     private val sourceRepository: ProductSourceRepository,
-): ProductInteractor {
+) : ProductInteractor {
 
     override fun observeProducts(): Flow<List<Product>> {
         return dbRepository.observeProducts()
@@ -29,5 +29,4 @@ internal class ProductInteractorImpl @Inject constructor(
     override suspend fun updateFavoriteStatus(productId: Long, isFavorite: Boolean) {
         dbRepository.updateFavoriteStatus(productId, isFavorite)
     }
-
 }
