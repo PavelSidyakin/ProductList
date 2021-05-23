@@ -40,13 +40,11 @@ class MainActivity : AppCompatActivity() {
         NavigationUI.setupActionBarWithNavController(this, navHostFragment.navController)
 
         ProductListFragment.observeProductId(this) { productId ->
-            try {
+            if (navHostFragment.childFragmentManager.primaryNavigationFragment is ProductListFragment) {
                 navController.navigate(
                     R.id.action_productListFragment_to_productDetailsFragment,
                     ProductDetailsFragment.createArgumentsBundle(productId)
                 )
-            } catch (th: Throwable) {
-                // ignore
             }
         }
     }

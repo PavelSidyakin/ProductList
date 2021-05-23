@@ -62,7 +62,6 @@ internal class ProductListItemView @JvmOverloads constructor(
             field = value
         }
 
-
     private val binding: ViewProductListItemBinding =
         ViewProductListItemBinding.inflate(LayoutInflater.from(context), this, true)
 }

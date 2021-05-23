@@ -88,10 +88,16 @@ class ProductListFragment : Fragment() {
     }
 
     internal class ProductIdSharedViewModel : ViewModel() {
-        private val liveData = MutableLiveData<Long>()
+
+        private val liveData = MutableLiveData<Long?>()
 
         fun observeProductId(lifecycleOwner: LifecycleOwner, block: (productId: Long) -> Unit) {
-            liveData.observe(lifecycleOwner) { block(it) }
+            liveData.observe(lifecycleOwner) { value ->
+                if (value != null) {
+                    block(value)
+                    liveData.value = null
+                }
+            }
         }
 
         fun setProductId(productId: Long) {
