@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import com.arkivanov.mvikotlin.core.lifecycle.asMviLifecycle
 import com.arkivanov.mvikotlin.keepers.instancekeeper.getInstanceKeeper
@@ -12,7 +13,7 @@ import com.productlist.product_ui.databinding.FragmentProductDetailsBinding
 import com.productlist.product_ui.impl.mvi.product_details.controller.ProductDetailsController
 import com.productlist.product_ui.impl.mvi.product_details.view.ProductDetailsViewImpl
 
-class ProductDetailsFragment : Fragment() {
+class ProductDetailsFragment : DialogFragment() {
 
     private val productUiInjector by lazy {
         ProductUiComponentHolder.getInjector()
@@ -55,10 +56,9 @@ class ProductDetailsFragment : Fragment() {
     companion object {
         private const val PRODUCT_ID_ARGUMENT_KEY = "PRODUCT_ID_ARGUMENT_KEY"
 
-        fun newInstance(productId: Long): ProductDetailsFragment {
-            return ProductDetailsFragment().apply {
-                if (arguments == null) arguments = Bundle()
-                arguments?.putLong(PRODUCT_ID_ARGUMENT_KEY, productId)
+        fun createArgumentsBundle(productId: Long): Bundle {
+            return Bundle().apply {
+                putLong(PRODUCT_ID_ARGUMENT_KEY, productId)
             }
         }
 

@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="product_list_item_margin">16dp</dimen>
+    <dimen name="product_list_item_half_distance">8dp</dimen>
 </resources>

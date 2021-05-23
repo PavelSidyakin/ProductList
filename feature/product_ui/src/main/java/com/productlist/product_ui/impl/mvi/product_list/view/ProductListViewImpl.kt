@@ -1,6 +1,5 @@
 package com.productlist.product_ui.impl.mvi.product_list.view
 
-import android.graphics.Rect
 import android.util.DisplayMetrics
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
@@ -12,6 +11,7 @@ import com.arkivanov.mvikotlin.core.view.ViewRenderer
 import com.productlist.product_ui.R
 import com.productlist.product_ui.databinding.FragmentProductListBinding
 import com.productlist.product_ui.impl.mvi.product_list.store.ProductListStore
+import com.productlist.product_ui.impl.mvi.product_list.view.recycler.MarginItemDecoration
 import com.productlist.product_ui.impl.mvi.product_list.view.recycler.ProductListAdapter
 import com.productlist.product_ui.impl.mvi.product_list.view.recycler.ProductListItemListener
 import kotlin.math.roundToInt
@@ -50,15 +50,17 @@ internal class ProductListViewImpl(
     init {
         val itemWidth: Int = binding.productListFakeItemView.width
 
-        binding.productListRecycler.layoutManager =
-            GridLayoutManager(binding.root.context, calculateNumberOfColumns(itemWidth))
-        binding.productListRecycler.adapter = productListAdapter
+        productListAdapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 
-        binding.productListRecycler.addItemDecoration(
-            MarginItemDecoration(
-                margin = binding.root.context.resources.getDimensionPixelSize(R.dimen.product_list_item_margin),
+        binding.productListRecycler.run {
+            layoutManager = GridLayoutManager(binding.root.context, calculateNumberOfColumns(itemWidth))
+            adapter = productListAdapter
+            addItemDecoration(
+                MarginItemDecoration(
+                    margin = binding.root.context.resources.getDimensionPixelSize(R.dimen.product_list_item_half_distance),
+                )
             )
-        )
+        }
     }
 
     private fun calculateNumberOfColumns(
@@ -79,19 +81,4 @@ internal class ProductListViewImpl(
         )
     }
 
-    class MarginItemDecoration(private val margin: Int) : RecyclerView.ItemDecoration() {
-        override fun getItemOffsets(
-            outRect: Rect,
-            view: View,
-            parent: RecyclerView,
-            state: RecyclerView.State
-        ) {
-            with(outRect) {
-                right = margin
-                left = margin
-                top = margin
-                bottom = margin
-            }
-        }
-    }
 }

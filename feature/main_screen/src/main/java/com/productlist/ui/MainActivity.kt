@@ -2,7 +2,10 @@ package com.productlist.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI
 import com.productlist.MainScreenComponentHolder
 import com.productlist.impl.di.MainScreenInjector
 import com.productlist.main_screen.R
@@ -15,33 +18,37 @@ class MainActivity : AppCompatActivity() {
         MainScreenComponentHolder.getInjector()
     }
 
+    private val navController: NavController
+        get() {
+            return findNavController(R.id.nav_host_fragment_container)
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        if (savedInstanceState == null) {
+        supportActionBar?.run {
+            setDisplayHomeAsUpEnabled(true);
+            setDisplayShowHomeEnabled(true);
+        }
 
-            supportFragmentManager.beginTransaction()
-                .add(
-                    R.id.fragment_container,
-                    ProductListFragment(),
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_container) as NavHostFragment
+
+        NavigationUI.setupActionBarWithNavController(this, navHostFragment.navController)
+
+        ProductListFragment.observeProductId(this) { productId ->
+            try {
+                navController.navigate(
+                    R.id.action_productListFragment_to_productDetailsFragment,
+                    ProductDetailsFragment.createArgumentsBundle(productId)
                 )
-                .commit()
+            } catch (th: Throwable) {
+                // ignore
+            }
         }
     }
 
-    override fun onAttachFragment(fragment: Fragment) {
-        super.onAttachFragment(fragment)
-        when (fragment) {
-            is ProductListFragment -> fragment.onProductSelectedListener = { productId ->
-                supportFragmentManager.beginTransaction()
-                    .add(
-                        R.id.fragment_container,
-                        ProductDetailsFragment.newInstance(productId),
-                    )
-                    .addToBackStack(null)
-                    .commit()
-            }
-        }
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp()
     }
 }
