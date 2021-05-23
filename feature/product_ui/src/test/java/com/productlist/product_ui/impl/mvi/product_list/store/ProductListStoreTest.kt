@@ -2,13 +2,11 @@ package com.productlist.product_ui.impl.mvi.product_list.store
 
 import com.arkivanov.mvikotlin.core.utils.isAssertOnMainThreadEnabled
 import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
-import com.productlist.common_utils.coroutine_utils.DispatcherProvider
+import com.productlist.common_utils.coroutine_utils.DispatcherProviderStub
 import com.productlist.product_domain.model.Product
 import io.mockk.coVerify
 import io.mockk.spyk
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.TestCoroutineDispatcher
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
@@ -23,13 +21,13 @@ internal class ProductListStoreTest {
     @BeforeEach
     fun beforeEachTest() {
         isAssertOnMainThreadEnabled = false
-        createStore()
     }
 
     @Test
     @DisplayName("When Intent.OnIsFavoriteChanged, should set product.isFavorite state")
     fun test0() {
         // action
+        createStore()
         store.accept(ProductListStore.Intent.OnIsFavoriteChanged(1, true))
 
         // verify
@@ -40,6 +38,7 @@ internal class ProductListStoreTest {
     @DisplayName("When Intent.OnIsFavoriteChanged, should update database isFavorite state")
     fun test1() {
         // action
+        createStore()
         store.accept(ProductListStore.Intent.OnIsFavoriteChanged(1, true))
 
         // verify
@@ -49,8 +48,11 @@ internal class ProductListStoreTest {
     @Test
     @DisplayName("When initialized, should show progress")
     fun test2() {
+        // action
+        createStore()
+
         // verify
-        Assertions.assertEquals(true, store.state.isInProgress)
+        Assertions.assertTrue(store.state.isInProgress)
     }
 
     @Test
@@ -58,25 +60,22 @@ internal class ProductListStoreTest {
     fun test3() {
         runBlocking {
             // action
+            createStore()
             productInteractor.loadProducts()
 
             // verify
-            Assertions.assertEquals(false, store.state.isInProgress)
+            Assertions.assertFalse(store.state.isInProgress)
         }
     }
 
     private fun createStore() {
-        store =
-            ProductListStoreFactoryImpl(
-                storeFactory = DefaultStoreFactory,
-                productListIntentExecutor = ProductListIntentExecutorImpl(
-                    productInteractor = productInteractor,
-                    dispatcherProvider = object : DispatcherProvider {
-                        override fun io(): CoroutineDispatcher = TestCoroutineDispatcher()
-                        override fun main(): CoroutineDispatcher = TestCoroutineDispatcher()
-                    },
-                )
-            ).create()
+        store = ProductListStoreFactoryImpl(
+            storeFactory = DefaultStoreFactory,
+            productListIntentExecutor = ProductListIntentExecutorImpl(
+                productInteractor = productInteractor,
+                dispatcherProvider = DispatcherProviderStub(),
+            )
+        ).create()
     }
 
     companion object {

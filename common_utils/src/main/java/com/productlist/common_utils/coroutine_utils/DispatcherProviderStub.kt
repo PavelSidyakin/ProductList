@@ -4,10 +4,12 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 
 /**
- * Stub with [Dispatchers.Unconfined] for all dispatchers.
- * Use for unit tests only
+ * Stub with the specified [CoroutineDispatcher] for all dispatchers.
+ * Should be used for unit tests only.
  */
-class DispatcherProviderStub : DispatcherProvider {
-    override fun io(): CoroutineDispatcher = Dispatchers.Unconfined
-    override fun main(): CoroutineDispatcher = Dispatchers.Unconfined
+class DispatcherProviderStub(
+    private val dispatcher: CoroutineDispatcher = Dispatchers.Unconfined,
+) : DispatcherProvider {
+    override fun io(): CoroutineDispatcher = dispatcher
+    override fun main(): CoroutineDispatcher = dispatcher
 }

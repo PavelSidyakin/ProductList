@@ -7,6 +7,7 @@ import com.productlist.product_domain.model.Product
 import com.productlist.product_ui.impl.mvi.product_list.view.recycler.ProductListItem
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -41,17 +42,22 @@ internal class ProductListIntentExecutorImpl @Inject constructor(
     }
 
     private suspend fun handleActionLoadList() = coroutineScope {
-        dispatch(ProductListStateChanges.ProgressStateChanged(isInProgress = true))
 
         withContext(dispatcherProvider.io()) {
             productInteractor.observeProducts()
-                .onStart { productInteractor.loadProducts() }
+                .onStart { showProgress(true) }
+                .onEach { showProgress(false) }
                 .collectLatest { list: List<Product> ->
                     withContext(dispatcherProvider.main()) {
                         dispatch(ProductListStateChanges.ListChanged(list.map { ProductListItem(it) }))
-                        dispatch(ProductListStateChanges.ProgressStateChanged(isInProgress = false))
                     }
                 }
+        }
+    }
+
+    private suspend fun showProgress(show: Boolean) {
+        withContext(dispatcherProvider.main()) {
+            dispatch(ProductListStateChanges.ProgressStateChanged(isInProgress = show))
         }
     }
 }
