@@ -66,9 +66,7 @@ internal class ProductListViewImpl(
     }
 
     // Calculates number of columns by the item width and the display width.
-    private fun calculateNumberOfColumns(
-        columnWidthPx: Int,
-    ): Int {
+    private fun calculateNumberOfColumns(columnWidthPx: Int): Int {
         val displayMetrics: DisplayMetrics = binding.root.context.resources.displayMetrics
         return ((displayMetrics.widthPixels.toFloat() / columnWidthPx) + 0.5).roundToInt()
     }
