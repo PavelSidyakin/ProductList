@@ -9,5 +9,5 @@ Multimodule architecture approach is based on the publication: https://proandroi
 
 The component diagram:
 
- ![Component Diagram]
+
 <img src="./ComponentDiagram.svg">
