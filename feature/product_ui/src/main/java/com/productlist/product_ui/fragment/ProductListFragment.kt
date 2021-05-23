@@ -5,12 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.arkivanov.mvikotlin.core.lifecycle.asMviLifecycle
 import com.arkivanov.mvikotlin.keepers.instancekeeper.getInstanceKeeper
 import com.productlist.product_ui.ProductUiComponentHolder
@@ -52,14 +53,7 @@ class ProductListFragment : Fragment() {
     private val binding get() = _binding!!
 
     // Shared view model to notify the product selection.
-    private lateinit var productIdSharedViewModel: ProductIdSharedViewModel
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        productIdSharedViewModel = requireActivity().run {
-            ViewModelProvider(this).get(ProductIdSharedViewModel::class.java)
-        }
-    }
+    private val productIdSharedViewModel: ProductIdSharedViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -73,15 +67,13 @@ class ProductListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // We need width of the fake item to determine column count correctly.
         // So, wait for the first global layout.
-//        view.viewTreeObserver.addOnGlobalLayoutListener(object :
-//            ViewTreeObserver.OnGlobalLayoutListener {
-//            override fun onGlobalLayout() {
-//                view.viewTreeObserver.removeOnGlobalLayoutListener(this)
-//            }
-//        })
-
-        controller.onViewCreated(ProductListViewImpl(binding), lifecycle.asMviLifecycle())
-
+        view.viewTreeObserver.addOnGlobalLayoutListener(object :
+            ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                controller.onViewCreated(ProductListViewImpl(binding), lifecycle.asMviLifecycle())
+                view.viewTreeObserver.removeOnGlobalLayoutListener(this)
+            }
+        })
     }
 
     override fun onDestroyView() {
@@ -109,7 +101,8 @@ class ProductListFragment : Fragment() {
 
     companion object {
         fun observeProductId(activity: AppCompatActivity, block: (productId: Long) -> Unit) {
-            ViewModelProvider(activity).get(ProductIdSharedViewModel::class.java)
+            activity.viewModels<ProductIdSharedViewModel>()
+                .value
                 .observeProductId(activity) { productId: Long ->
                     block(productId)
                 }

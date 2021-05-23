@@ -55,7 +55,7 @@ internal class ProductListViewImpl(
         productListAdapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 
         binding.productListRecycler.run {
-            layoutManager = GridLayoutManager(binding.root.context, 2)
+            layoutManager = GridLayoutManager(binding.root.context, calculateNumberOfColumns(itemWidth))
             adapter = productListAdapter
             addItemDecoration(
                 ProductGridMarginItemDecoration(
@@ -73,8 +73,8 @@ internal class ProductListViewImpl(
         return ((displayMetrics.widthPixels.toFloat() / columnWidthPx) + 0.5).roundToInt()
     }
 
-    // The function always pass the list "as is" without the content compare.
-    // Always let the adapter to compare the lists.
+    // Checks is the old and new list have the same reference (===).
+    // If so, do not pass the list to recycler.
     private fun <Model : Any, PM, PD : List<PM>> DiffBuilder<Model>.diffRecyclerList(
         get: (Model) -> PD?,
         set: (PD) -> Unit
@@ -82,7 +82,7 @@ internal class ProductListViewImpl(
         diff(
             get = get,
             set = { pd: PD? -> pd?.let { set(it) } },
-            compare = { _, _ -> false }
+            compare = { a, b -> a === b }
         )
     }
 }
