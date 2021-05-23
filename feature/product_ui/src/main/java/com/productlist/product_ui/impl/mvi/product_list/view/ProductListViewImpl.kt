@@ -37,7 +37,7 @@ internal class ProductListViewImpl(
     override val renderer: ViewRenderer<ProductListStore.State>? = diff {
         diffRecyclerList(
             get = ProductListStore.State::productList,
-            set = { list -> productListAdapter.products = list }
+            set = { list -> productListAdapter.submitList(list) }
         )
         diff(get = ProductListStore.State::isInProgress, set = { isInProgress ->
             binding.progressGroup.visibility = when (isInProgress) {
@@ -55,7 +55,7 @@ internal class ProductListViewImpl(
         productListAdapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 
         binding.productListRecycler.run {
-            layoutManager = GridLayoutManager(binding.root.context, calculateNumberOfColumns(itemWidth))
+            layoutManager = GridLayoutManager(binding.root.context, 2)
             adapter = productListAdapter
             addItemDecoration(
                 ProductGridMarginItemDecoration(
