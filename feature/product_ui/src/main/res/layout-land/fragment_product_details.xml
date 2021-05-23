@@ -28,8 +28,8 @@
                 android:layout_height="0dp"
                 android:layout_marginBottom="16dp"
                 android:scaleType="fitCenter"
-                app:layout_constraintBottom_toTopOf="@id/product_title_textview"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/half_guideline"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:src="@android:drawable/ic_screenshot" />
@@ -38,24 +38,30 @@
                 android:id="@+id/favorite_checkbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="32dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
                 android:button="@drawable/favorite_checkbox_selector"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/half_guideline"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/half_guideline"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.5" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/product_title_textview"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
-                android:gravity="center"
+                android:layout_marginTop="16dp"
+                android:gravity="start"
                 android:textAppearance="@style/Products.Header.Big"
-                app:layout_constraintBottom_toTopOf="@id/product_author_textview"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@id/half_guideline"
+                app:layout_constraintTop_toBottomOf="@id/favorite_checkbox"
                 tools:text="Harry Potter and the Deathly Hallows Year 7 by J. K. Rowling (2007, Hardcover)" />
 
             <com.google.android.material.textview.MaterialTextView
@@ -63,13 +69,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
-                android:gravity="center"
+                android:layout_marginTop="16dp"
+                android:gravity="start"
                 android:textAppearance="@style/Products.SubHeader.Big"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@id/half_guideline"
+                app:layout_constraintTop_toBottomOf="@id/product_title_textview"
                 tools:text="J.K. Rowling" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

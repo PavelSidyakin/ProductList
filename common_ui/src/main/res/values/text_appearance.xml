@@ -15,4 +15,16 @@
         <item name="android:textSize">11sp</item>
     </style>
 
+    <style name="Products.Header.Big">
+        <item name="android:textColor">?textColor</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="Products.SubHeader.Big">
+        <item name="android:textColor">?textColor</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
 </resources>
