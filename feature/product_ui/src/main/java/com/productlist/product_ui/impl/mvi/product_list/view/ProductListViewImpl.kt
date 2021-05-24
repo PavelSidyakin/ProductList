@@ -48,20 +48,25 @@ internal class ProductListViewImpl(
     }
 
     init {
-        // Get the width if the fake list item view.
-        val itemWidth: Int = binding.productListFakeItemView.width
-
         // Restore position on the fragment restore.
         productListAdapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 
         binding.productListRecycler.run {
-            layoutManager = GridLayoutManager(binding.root.context, calculateNumberOfColumns(itemWidth))
             adapter = productListAdapter
             addItemDecoration(
                 ProductGridMarginItemDecoration(
                     margin = binding.root.context.resources.getDimensionPixelSize(R.dimen.product_list_item_half_distance),
                 )
             )
+        }
+    }
+
+    override fun onGlobalLayout() {
+        // Get the width if the fake list item view.
+        val itemWidth: Int = binding.productListFakeItemView.width
+
+        binding.productListRecycler.run {
+            layoutManager = GridLayoutManager(binding.root.context, calculateNumberOfColumns(itemWidth))
         }
     }
 

@@ -41,7 +41,7 @@ internal class ProductListControllerImpl @AssistedInject constructor(
     interface Factory : ProductListControllerFactory {
         override fun create(
             instanceKeeper: InstanceKeeper,
-            dependencies: ProductListController.Dependencies
+            dependencies: ProductListController.Dependencies,
         ): ProductListControllerImpl
     }
 }
