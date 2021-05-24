@@ -15,6 +15,7 @@ import com.productlist.product_ui.impl.mvi.product_list.store.ProductListStore
 import com.productlist.product_ui.impl.mvi.product_list.view.recycler.ProductGridMarginItemDecoration
 import com.productlist.product_ui.impl.mvi.product_list.view.recycler.ProductListAdapter
 import com.productlist.product_ui.impl.mvi.product_list.view.recycler.ProductListItemListener
+import com.productlist.product_ui.impl.views.ProductListItemView
 import kotlin.math.roundToInt
 
 
@@ -61,14 +62,15 @@ internal class ProductListViewImpl(
                 )
             )
         }
-    }
 
-    override fun onGlobalLayout() {
-        // Get the width if the fake list item view.
-        val itemWidth: Int = binding.productListFakeItemView.width
+        // Get the width of the list item view.
+        val itemWidth = ProductListItemView(binding.root.context).run {
+            measure(0, 0)
+            measuredWidth
+        } + binding.root.context.resources.displayMetrics.density * 64 // add margins
 
         binding.productListRecycler.run {
-            layoutManager = GridLayoutManager(binding.root.context, calculateNumberOfColumns(itemWidth))
+            layoutManager = GridLayoutManager(binding.root.context, calculateNumberOfColumns(itemWidth.toInt()))
         }
     }
 

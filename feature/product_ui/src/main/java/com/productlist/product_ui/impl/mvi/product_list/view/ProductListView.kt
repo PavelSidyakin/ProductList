@@ -7,5 +7,4 @@ import com.productlist.product_ui.impl.mvi.product_list.store.ProductListStore
  * MVIKotlin view interface.
  */
 internal interface ProductListView : MviView<ProductListStore.State, ProductListStore.Intent> {
-    fun onGlobalLayout()
 }

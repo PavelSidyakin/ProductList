@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -67,16 +66,6 @@ class ProductListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val productListView = ProductListViewImpl(binding)
         controller.onViewCreated(productListView, viewLifecycleOwner.lifecycle.asMviLifecycle())
-
-        // We need width of the fake item to determine column count correctly.
-        // So, wait for the first global layout.
-        view.viewTreeObserver.addOnGlobalLayoutListener(object :
-            ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                productListView.onGlobalLayout()
-                view.viewTreeObserver.removeOnGlobalLayoutListener(this)
-            }
-        })
     }
 
     override fun onDestroyView() {
