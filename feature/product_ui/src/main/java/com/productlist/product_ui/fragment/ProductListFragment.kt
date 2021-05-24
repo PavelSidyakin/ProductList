@@ -66,7 +66,7 @@ class ProductListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val productListView = ProductListViewImpl(binding)
-        controller.onViewCreated(productListView, lifecycle.asMviLifecycle())
+        controller.onViewCreated(productListView, viewLifecycleOwner.lifecycle.asMviLifecycle())
 
         // We need width of the fake item to determine column count correctly.
         // So, wait for the first global layout.

@@ -51,7 +51,7 @@ class ProductDetailsFragment : DialogFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        controller.onViewCreated(ProductDetailsViewImpl(arguments.readProductId(), binding), lifecycle.asMviLifecycle())
+        controller.onViewCreated(ProductDetailsViewImpl(arguments.readProductId(), binding), viewLifecycleOwner.lifecycle.asMviLifecycle())
 
     }
 
