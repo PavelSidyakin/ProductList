@@ -31,7 +31,7 @@ internal class ProductListControllerImpl @AssistedInject constructor(
             productListView.events bindTo store
         }
 
-        bind(viewLifecycle, BinderLifecycleMode.START_STOP, dispatcherProvider.main()) {
+        bind(viewLifecycle, BinderLifecycleMode.START_STOP, dispatcherProvider.mainImmediate()) {
             store.states bindTo productListView
             productListView.events.mapNotNull { productListIntentToOutput(it) } bindTo { dependencies.productSelectedCallback(it) }
         }

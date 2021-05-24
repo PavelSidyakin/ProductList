@@ -11,7 +11,7 @@ internal class DispatcherProviderImpl @Inject constructor(
 ) : DispatcherProvider {
 
     override fun main(): CoroutineDispatcher = Dispatchers.Main
-
+    override fun mainImmediate(): CoroutineDispatcher = Dispatchers.Main.immediate
     override fun io(): CoroutineDispatcher = Dispatchers.IO
 
 }

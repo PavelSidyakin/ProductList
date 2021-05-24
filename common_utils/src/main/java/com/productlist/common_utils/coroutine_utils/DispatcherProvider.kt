@@ -18,4 +18,9 @@ interface DispatcherProvider {
      */
     fun main(): CoroutineDispatcher
 
+    /**
+     * Returns main thread immediate dispatcher.
+     */
+    fun mainImmediate(): CoroutineDispatcher
+
 }
