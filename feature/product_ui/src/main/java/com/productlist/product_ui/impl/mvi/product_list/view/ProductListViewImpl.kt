@@ -2,6 +2,7 @@ package com.productlist.product_ui.impl.mvi.product_list.view
 
 import android.util.DisplayMetrics
 import android.view.View
+import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.arkivanov.mvikotlin.core.utils.DiffBuilder
@@ -45,6 +46,7 @@ internal class ProductListViewImpl(
                 false -> View.GONE
             }
         })
+        diff(get = ProductListStore.State::error, set = { showError(it) })
     }
 
     init {
@@ -74,6 +76,12 @@ internal class ProductListViewImpl(
     private fun calculateNumberOfColumns(columnWidthPx: Int): Int {
         val displayMetrics: DisplayMetrics = binding.root.context.resources.displayMetrics
         return ((displayMetrics.widthPixels.toFloat() / columnWidthPx) + 0.5).roundToInt()
+    }
+
+    private fun showError(throwable: Throwable?) {
+        if (throwable != null) {
+            Toast.makeText(binding.root.context, R.string.general_error_message, Toast.LENGTH_LONG).show()
+        }
     }
 
     // Checks is the old and new list have the same reference (===).

@@ -4,4 +4,6 @@
     <string name="product_list_title">Products</string>
     <string name="product_details_title">Product details</string>
 
+    <string name="general_error_message">Something bad happened</string>
+
 </resources>

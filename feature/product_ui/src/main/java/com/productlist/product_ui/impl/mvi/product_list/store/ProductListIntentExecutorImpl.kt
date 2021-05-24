@@ -6,7 +6,10 @@ import com.productlist.product_domain.domain.ProductInteractor
 import com.productlist.product_domain.model.Product
 import com.productlist.product_ui.impl.mvi.product_list.view.recycler.ProductListItem
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.withContext
@@ -32,26 +35,38 @@ internal class ProductListIntentExecutorImpl @Inject constructor(
     }
 
     private suspend fun handleIsFavoriteChanged(productId: Long, isFavorite: Boolean) {
-        productInteractor.updateFavoriteStatus(productId, isFavorite)
+        try {
+            withContext(dispatcherProvider.io()) {
+                productInteractor.updateFavoriteStatus(productId, isFavorite)
+            }
+        } catch (th: Throwable) {
+            dispatchChanges(ProductListStateChanges.ErrorChanged(th))
+        }
     }
 
     private suspend fun handleActionLoadList() = coroutineScope {
+        dispatchChanges(ProductListStateChanges.ErrorChanged(null))
 
         withContext(dispatcherProvider.io()) {
-            productInteractor.observeProducts()
+            flow { emitAll(productInteractor.observeProducts()) }
                 .onStart { showProgress(true) }
                 .onEach { showProgress(false) }
+                .catch { th ->
+                    dispatchChanges(ProductListStateChanges.ErrorChanged(th))
+                }
                 .collectLatest { list: List<Product> ->
-                    withContext(dispatcherProvider.main()) {
-                        dispatch(ProductListStateChanges.ListChanged(list.map { ProductListItem(it) }))
-                    }
+                    dispatchChanges(ProductListStateChanges.ListChanged(list.map { ProductListItem(it) }))
                 }
         }
     }
 
     private suspend fun showProgress(show: Boolean) {
+        dispatchChanges(ProductListStateChanges.ProgressStateChanged(isInProgress = show))
+    }
+
+    private suspend fun dispatchChanges(changes: ProductListStateChanges) {
         withContext(dispatcherProvider.main()) {
-            dispatch(ProductListStateChanges.ProgressStateChanged(isInProgress = show))
+            dispatch(changes)
         }
     }
 }

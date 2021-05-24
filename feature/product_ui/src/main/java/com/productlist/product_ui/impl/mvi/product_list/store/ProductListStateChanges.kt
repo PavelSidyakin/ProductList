@@ -1,5 +1,6 @@
 package com.productlist.product_ui.impl.mvi.product_list.store
 
+import com.productlist.product_ui.impl.mvi.product_details.store.ProductDetailsStateChanges
 import com.productlist.product_ui.impl.mvi.product_list.view.recycler.ProductListItem
 
 /**
@@ -19,4 +20,12 @@ internal sealed class ProductListStateChanges {
      * @param isInProgress The new progress state.
      */
     data class ProgressStateChanged(val isInProgress: Boolean) : ProductListStateChanges()
+
+    /**
+     * Notifies about error.
+     *
+     * @param error The exception.
+     */
+    data class ErrorChanged(val error: Throwable?): ProductListStateChanges()
+
 }

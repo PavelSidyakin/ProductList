@@ -4,8 +4,13 @@ import com.arkivanov.mvikotlin.core.utils.isAssertOnMainThreadEnabled
 import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
 import com.productlist.common_utils.coroutine_utils.DispatcherProviderStub
 import com.productlist.product_domain.model.Product
+import io.mockk.Runs
+import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.every
+import io.mockk.just
 import io.mockk.spyk
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
@@ -66,6 +71,73 @@ internal class ProductListStoreTest {
             // verify
             Assertions.assertFalse(store.state.isInProgress)
         }
+    }
+
+    @Test
+    @DisplayName("When error occurred in observeProducts() (emits error), should show error")
+    fun test4() {
+        //mock
+        every { productInteractor.observeProducts() } returns flow { throw RuntimeException() }
+
+        // action
+        createStore()
+
+        // verify
+        Assertions.assertNotNull(store.state.error)
+    }
+
+    @Test
+    @DisplayName("When error occurred in observeProducts() (throws itself), should show error")
+    fun test6() {
+        //mock
+        every { productInteractor.observeProducts() } throws RuntimeException()
+
+        // action
+        createStore()
+
+        // verify
+        Assertions.assertNotNull(store.state.error)
+    }
+
+    @Test
+    @DisplayName("When observeProducts() succeeded, shouldn't show error")
+    fun test5() {
+        //mock
+        every { productInteractor.observeProducts() } returns flow { products }
+
+        // action
+        createStore()
+
+        // verify
+        Assertions.assertNull(store.state.error)
+    }
+
+    @Test
+    @DisplayName("When error occurred in updateFavoriteStatus(), should show error")
+    fun test8() {
+        //mock
+        coEvery { productInteractor.updateFavoriteStatus(any(), any()) } throws RuntimeException()
+
+        // action
+        createStore()
+        store.accept(ProductListStore.Intent.OnIsFavoriteChanged(1, true))
+
+        // verify
+        Assertions.assertNotNull(store.state.error)
+    }
+
+    @Test
+    @DisplayName("When updateFavoriteStatus() succeeded, shouldn't show error")
+    fun test9() {
+        //mock
+        coEvery { productInteractor.updateFavoriteStatus(any(), any()) } just Runs
+
+        // action
+        createStore()
+        store.accept(ProductListStore.Intent.OnIsFavoriteChanged(1, true))
+
+        // verify
+        Assertions.assertNull(store.state.error)
     }
 
     private fun createStore() {

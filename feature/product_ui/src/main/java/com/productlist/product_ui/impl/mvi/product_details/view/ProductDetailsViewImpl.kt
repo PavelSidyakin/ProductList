@@ -1,6 +1,7 @@
 package com.productlist.product_ui.impl.mvi.product_details.view
 
 import android.net.Uri
+import android.widget.Toast
 import com.arkivanov.mvikotlin.core.utils.diff
 import com.arkivanov.mvikotlin.core.view.BaseMviView
 import com.arkivanov.mvikotlin.core.view.ViewRenderer
@@ -21,6 +22,7 @@ internal class ProductDetailsViewImpl(
         diff(get = { it.product?.author }, set = { binding.productAuthorTextview.text = it })
         diff(get = { it.product?.title }, set = { binding.productTitleTextview.text = it })
         diff(get = { it.product?.imageUrl }, set = { showProductImage(it) })
+        diff(get = { it.error }, set = { showError(it) })
     }
 
     init {
@@ -43,6 +45,12 @@ internal class ProductDetailsViewImpl(
     private fun setOnIsFavoriteChangedListener() {
         binding.favoriteCheckbox.setOnCheckedChangeListener { _, isChecked ->
             dispatch(ProductDetailsStore.Intent.OnIsFavoriteChanged(productId, isChecked))
+        }
+    }
+
+    private fun showError(throwable: Throwable?) {
+        if (throwable != null) {
+            Toast.makeText(binding.root.context, R.string.general_error_message, Toast.LENGTH_LONG).show()
         }
     }
 

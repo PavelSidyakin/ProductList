@@ -5,7 +5,11 @@ import com.productlist.common_utils.coroutine_utils.DispatcherProvider
 import com.productlist.product_domain.domain.ProductInteractor
 import com.productlist.product_domain.model.Product
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 internal class ProductDetailsIntentExecutorImpl @Inject constructor(
@@ -28,13 +32,32 @@ internal class ProductDetailsIntentExecutorImpl @Inject constructor(
     }
 
     private suspend fun handleIsFavoriteChanged(productId: Long, isFavorite: Boolean) {
-        productInteractor.updateFavoriteStatus(productId, isFavorite)
+        try {
+            withContext(dispatcherProvider.io()) {
+                productInteractor.updateFavoriteStatus(productId, isFavorite)
+            }
+        } catch (th: Throwable) {
+            dispatchChanges(ProductDetailsStateChanges.ErrorChanged(th))
+        }
     }
 
     private suspend fun handleShowDetails(productId: Long) = coroutineScope {
-        productInteractor.observeProduct(productId)
-            .collectLatest { product: Product ->
-                dispatch(ProductDetailsStateChanges.ProductChanged(product))
-            }
+        dispatchChanges(ProductDetailsStateChanges.ErrorChanged(null))
+
+        withContext(dispatcherProvider.io()) {
+            flow { emitAll(productInteractor.observeProduct(productId)) }
+                .catch { th ->
+                    dispatchChanges(ProductDetailsStateChanges.ErrorChanged(th))
+                }
+                .collectLatest { product: Product ->
+                    dispatchChanges(ProductDetailsStateChanges.ProductChanged(product))
+                }
+        }
+    }
+
+    private suspend fun dispatchChanges(changes: ProductDetailsStateChanges) {
+        withContext(dispatcherProvider.main()) {
+            dispatch(changes)
+        }
     }
 }

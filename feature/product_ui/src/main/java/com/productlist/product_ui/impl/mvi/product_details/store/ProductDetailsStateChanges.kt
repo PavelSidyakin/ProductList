@@ -11,4 +11,11 @@ internal sealed class ProductDetailsStateChanges {
      * @param product The new product data.
      */
     data class ProductChanged(val product: Product): ProductDetailsStateChanges()
+
+    /**
+     * Notifies about error.
+     *
+     * @param error The exception.
+     */
+    data class ErrorChanged(val error: Throwable?): ProductDetailsStateChanges()
 }
