@@ -11,6 +11,9 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.slot
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.toCollection
 import kotlinx.coroutines.runBlocking
@@ -122,10 +125,100 @@ internal class ProductInteractorImplTest {
         coEvery { dbRepository.updateFavoriteStatus(any(), any()) } just Runs
         coEvery { dbRepository.updateFavoriteStatus(eq(NON_EXISTENT_PRODUCT_ID), any()) } throws RuntimeException("Wrong ID")
 
-        // action
+        // action & verify
         Assertions.assertThrows(Throwable::class.java) {
             runBlocking {
                 interactor.updateFavoriteStatus(NON_EXISTENT_PRODUCT_ID, isFavorite = true)
+            }
+        }
+    }
+
+    @Test
+    @DisplayName("When repo's observeProducts() emits error, observeProducts() should emit error")
+    fun test5(): Unit = runBlocking {
+        // when
+        coEvery { dbRepository.observeProducts() } returns flow { throw RuntimeException() }
+
+        // action
+        var error: Throwable? = null
+        interactor.observeProducts()
+            .catch { error = it }
+            .collect()
+
+        // verify
+        Assertions.assertNotNull(error)
+    }
+
+    @Test
+    @DisplayName("When repo's observeProducts() throws, observeProducts() should throw")
+    fun test6(): Unit = runBlocking {
+        // when
+        coEvery { dbRepository.observeProducts() } throws RuntimeException()
+
+        // action & verify
+        Assertions.assertThrows(Throwable::class.java) {
+            runBlocking {
+                interactor.observeProducts()
+            }
+        }
+    }
+
+    @Test
+    @DisplayName("When repo's observeProduct() emits error, observeProduct() should emit error")
+    fun test7(): Unit = runBlocking {
+        // when
+        coEvery { dbRepository.observeProduct(any()) } returns flow { throw RuntimeException() }
+
+        // action
+        var error: Throwable? = null
+        interactor.observeProduct(PRODUCT_1_ID)
+            .catch { error = it }
+            .collect()
+
+        // verify
+        Assertions.assertNotNull(error)
+    }
+
+    @Test
+    @DisplayName("When repo's observeProduct() throws, observeProduct() should throw")
+    fun test8(): Unit = runBlocking {
+        // when
+        coEvery { dbRepository.observeProduct(any()) } throws RuntimeException()
+
+        // action & verify
+        Assertions.assertThrows(Throwable::class.java) {
+            runBlocking {
+                interactor.observeProduct(PRODUCT_1_ID)
+            }
+        }
+    }
+
+    @Test
+    @DisplayName("When repo's clearProducts() throws, loadProducts() should throw")
+    fun test9(): Unit = runBlocking {
+        // when
+        coEvery { dbRepository.clearProducts() } throws RuntimeException()
+        coEvery { sourceRepository.requestProducts() } returns PRODUCTS
+
+        // action & verify
+        Assertions.assertThrows(Throwable::class.java) {
+            runBlocking {
+                interactor.loadProducts()
+            }
+        }
+    }
+
+    @Test
+    @DisplayName("When repo's requestProducts() throws, loadProducts() should throw")
+    fun test10(): Unit = runBlocking {
+        // when
+        coEvery { dbRepository.clearProducts() } just Runs
+        coEvery { sourceRepository.requestProducts() } throws RuntimeException()
+
+        // action & verify
+        Assertions.assertThrows(Throwable::class.java) {
+            runBlocking {
+                interactor.loadProducts()
             }
         }
     }
