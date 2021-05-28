@@ -1,13 +1,17 @@
 package com.productlist.product_ui.impl.mvi.product_list.view.recycler
 
 import android.view.ViewGroup
+import androidx.recyclerview.widget.AsyncDifferConfig
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.productlist.product_domain.model.Product
 
 internal class ProductListAdapter(
     private val productListItemListener: ProductListItemListener,
-) : ListAdapter<ProductListItem, ProductListItemViewHolder>(DiffUtilItemCallback()) {
+) : ListAdapter<ProductListItem, ProductListItemViewHolder>(
+    AsyncDifferConfig.Builder(DiffUtilItemCallback())
+        .build()
+) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductListItemViewHolder {
         return ProductListItemViewHolder.create(parent, productListItemListener)
