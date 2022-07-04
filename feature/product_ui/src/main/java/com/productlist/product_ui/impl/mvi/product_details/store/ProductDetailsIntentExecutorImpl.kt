@@ -4,6 +4,9 @@ import com.arkivanov.mvikotlin.extensions.coroutines.SuspendExecutor
 import com.productlist.common_utils.coroutine_utils.DispatcherProvider
 import com.productlist.product_domain.domain.ProductInteractor
 import com.productlist.product_domain.model.Product
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
@@ -12,7 +15,8 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-internal class ProductDetailsIntentExecutorImpl @Inject constructor(
+internal class ProductDetailsIntentExecutorImpl @AssistedInject constructor(
+    @Assisted private val productId: Long,
     private val productInteractor: ProductInteractor,
     private val dispatcherProvider: DispatcherProvider,
 ) : SuspendExecutor<ProductDetailsStore.Intent, ProductDetailsBootstrapper.Action, ProductDetailsStore.State, ProductDetailsStateChanges, Nothing>(
@@ -21,7 +25,7 @@ internal class ProductDetailsIntentExecutorImpl @Inject constructor(
 
     override suspend fun executeAction(action: ProductDetailsBootstrapper.Action, getState: () -> ProductDetailsStore.State) {
         when (action) {
-            is ProductDetailsBootstrapper.Action.ShowDetails -> handleShowDetails(action.productId)
+            is ProductDetailsBootstrapper.Action.ShowDetails -> handleShowDetails()
         }
     }
 
@@ -41,7 +45,7 @@ internal class ProductDetailsIntentExecutorImpl @Inject constructor(
         }
     }
 
-    private suspend fun handleShowDetails(productId: Long) = coroutineScope {
+    private suspend fun handleShowDetails() = coroutineScope {
         dispatchChanges(ProductDetailsStateChanges.ErrorChanged(null))
 
         withContext(dispatcherProvider.io()) {
@@ -59,5 +63,10 @@ internal class ProductDetailsIntentExecutorImpl @Inject constructor(
         withContext(dispatcherProvider.main()) {
             dispatch(changes)
         }
+    }
+
+    @AssistedFactory
+    interface Factory : ProductDetailsIntentExecutorFactory {
+        override fun create(productId: Long): ProductDetailsIntentExecutorImpl
     }
 }

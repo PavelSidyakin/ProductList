@@ -9,7 +9,7 @@ internal class ProductDetailsBootstrapper {
         /**
          * The action to load product details.
          */
-        data class ShowDetails(val productId: Long) : Action()
+        object ShowDetails : Action()
     }
 
 }
